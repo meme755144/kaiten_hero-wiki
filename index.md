@@ -9,7 +9,7 @@ permalink: /
   <script>
     // 偵測瀏覽器語言，自動分流
     var userLang = navigator.language || navigator.userLanguage; 
-    if (userLang.toLowerString().indexOf('ja') !== -1) {
+    if (userLang.toLowerCase().indexOf('ja') !== -1) {
       window.location.href = "{{ site.baseurl }}/ja-JP/";
     } else {
       window.location.href = "{{ site.baseurl }}/zh-TW/";
