@@ -1,0 +1,19 @@
+title: "Kaiten Hero 攻略 Wiki"
+description: "Kaiten Hero 多語言遊戲知識庫"
+
+# 遠端主題設定
+remote_theme: "just-the-docs/just-the-docs"
+
+baseurl: "" # 如果是個人主頁儲存庫，請填 ""
+url: "https://github.io"
+
+# 導覽與搜尋設定
+search_enabled: true
+heading_anchors: true
+
+# 開啟亮暗切換
+color_scheme: dark
+
+# 讓 GitHub Pages 允許遠端載入主題
+plugins:
+  - jekyll-remote-theme
