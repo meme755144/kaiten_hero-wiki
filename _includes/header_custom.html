@@ -1,28 +1,62 @@
-<div class="topbar-lang-switcher" style="display: flex; gap: 12px; align-items: center; font-size: 0.9em; margin-left: auto; order: 99; padding-right: 20px;">
-  {% for lang_item in site.languages %}
-    {% if page.lang == lang_item.code %}
-      <!-- 當前語言顯示粗體樣式 -->
-      <span style="font-weight: bold; color: var(--link-color); background: var(--feedback-info-background); padding: 4px 8px; border-radius: 4px; white-space: nowrap;">
-        {{ lang_item.flag }} {{ lang_item.label }}
-      </span>
-    {% else %}
-      {% assign target_page = site.pages | where: "content_id", page.content_id | where: "lang", lang_item.code | first %}
-      
-      {% if target_page %}
-        <!-- 如果找到了相同 content_id 的跨語言對應頁面，精準跳轉 -->
-        <a href="{{ target_page.url | relative_url }}" style="text-decoration: none; opacity: 0.8; white-space: nowrap;">
+<!-- 頂部控制中心 -->
+<div class="topbar-control-center" style="display: flex; gap: 16px; align-items: center; font-size: 0.9em; margin-left: auto; order: 99; padding-right: 20px;">
+  
+  <!-- 多語系按鈕 -->
+  <div class="topbar-lang-switcher" style="display: flex; gap: 12px; align-items: center;">
+    {% for lang_item in site.languages %}
+      {% if page.lang == lang_item.code %}
+        <span style="font-weight: bold; color: var(--link-color); background: var(--feedback-info-background); padding: 4px 8px; border-radius: 4px; white-space: nowrap;">
           {{ lang_item.flag }} {{ lang_item.label }}
-        </a>
+        </span>
       {% else %}
-        <!-- 如果是新頁面還沒有人幫忙翻譯，則貼心地安全引導回該語言的首頁（加上 relative_url 自動帶出儲存庫前綴） -->
-        <a href="{{ lang_item.home_url | relative_url }}" style="text-decoration: none; opacity: 0.8; white-space: nowrap;">
-          {{ lang_item.flag }} {{ lang_item.label }}
-        </a>
+        {% assign target_page = site.pages | where: "content_id", page.content_id | where: "lang", lang_item.code | first %}
+        {% if target_page %}
+          <a href="{{ target_page.url | relative_url }}" style="text-decoration: none; opacity: 0.8; white-space: nowrap;">
+            {{ lang_item.flag }} {{ lang_item.label }}
+          </a>
+        {% else %}
+          <a href="{{ lang_item.home_url | relative_url }}" style="text-decoration: none; opacity: 0.8; white-space: nowrap;">
+            {{ lang_item.flag }} {{ lang_item.label }}
+          </a>
+        {% endif %}
       {% endif %}
-    {% endif %}
+      {% unless forloop.last %}
+        <span style="color: var(--border-color); opacity: 0.5;">|</span>
+      {% endunless %}
+    {% endfor %}
+  </div>
 
-    {% unless forloop.last %}
-      <span style="color: var(--border-color); opacity: 0.5;">|</span>
-    {% endunless %}
-  {% endfor %}
+  <span style="color: var(--border-color); opacity: 0.5;">|</span>
+
+  <!-- 亮暗模式切換鈕 -->
+  <button id="js-theme-toggle" class="btn" style="background: transparent; border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 1.1em; display: flex; align-items: center; justify-content: center; color: var(--text-color);">
+    ☀️
+  </button>
+
+  <script>
+    (function() {
+      var themeToggle = document.getElementById('js-theme-toggle');
+      if (!themeToggle) return;
+
+      // 偵測與校正按鈕圖示
+      function updateButtonIcon() {
+        var currentTheme = jtd.getTheme(); 
+        if (currentTheme === 'dark') {
+          themeToggle.textContent = '🌙'; 
+        } else {
+          themeToggle.textContent = '☀️'; 
+        }
+      }
+
+      updateButtonIcon();
+
+      // 監聽按鈕點擊
+      themeToggle.addEventListener('click', function() {
+        var nextTheme = jtd.getTheme() === 'dark' ? 'light' : 'dark';
+        jtd.setTheme(nextTheme); 
+        localStorage.setItem('jtd-theme', nextTheme); // 鎖定記憶
+        updateButtonIcon(); 
+      });
+    })();
+  </script>
 </div>
