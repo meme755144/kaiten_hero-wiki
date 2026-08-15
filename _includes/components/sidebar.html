@@ -1,0 +1,53 @@
+<div class="side-bar">
+  <div class="site-header" role="banner">
+    <a href="{{ '/' | relative_url }}" class="site-title animate-blur">
+      {% if site.logo %}
+        <img src="{{ site.logo | relative_url }}" alt="{{ site.title }}" class="site-logo">
+      {% else %}
+        {{ site.title }}
+      {% endif %}
+    </a>
+    <button id="menu-button" class="site-button btn-menu" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
+      <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><use xlink:href="#svg-menu"></use></svg>
+    </button>
+  </div>
+
+  <!-- 1. 手動語言切換按鈕區塊 -->
+  <div class="lang-switcher" style="padding: 10px 16px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); font-size: 0.85em;">
+    {% if page.lang == 'zh-TW' %}
+      <span style="font-weight: bold; color: var(--link-color);">🇹🇼 繁體中文</span>
+    {% else %}
+      {% assign target_page = site.pages | where: "content_id", page.content_id | where: "lang", "zh-TW" | first %}
+      <a href="{{ target_page.url | relative_url | default: '/zh-TW/' }}">🇹🇼 繁體中文</a>
+    {% endif %}
+
+    <span style="margin: 0 6px; color: var(--border-color);">|</span>
+
+    {% if page.lang == 'ja-JP' %}
+      <span style="font-weight: bold; color: var(--link-color);">🇯🇵 日本語</span>
+    {% else %}
+      {% assign target_page = site.pages | where: "content_id", page.content_id | where: "lang", "ja-JP" | first %}
+      <a href="{{ target_page.url | relative_url | default: '/ja-JP/' }}">🇯🇵 日本語</a>
+    {% endif %}
+  </div>
+
+  <!-- 2. 側邊欄主選單：在此處進行語言過濾 -->
+  <nav id="site-nav" class="site-nav" aria-label="Main">
+    {% assign current_lang = page.lang | default: 'zh-TW' %}
+    {% assign pages_top_level = site.html_pages | where_exp: "item", "item.parent == nil" | where_exp: "item", "item.nav_exclude != true" | where: "lang", current_lang %}
+    
+    {% include components/nav_links.html pages=pages_top_level %}
+  </nav>
+
+  {% capture nav_footer_custom %}
+    {% include nav_footer_custom.html %}
+  {% endcapture %}
+  {% if site.nav_footer or nav_footer_custom != "" %}
+    <footer class="site-footer" role="contentinfo">
+      {% if site.nav_footer %}
+        <p class="text-small text-grey-dk-000 mb-0">{{ site.nav_footer }}</p>
+      {% endif %}
+      {{ nav_footer_custom }}
+    </footer>
+  {% endif %}
+</div>
