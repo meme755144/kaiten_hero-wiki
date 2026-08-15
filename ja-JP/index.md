@@ -2,7 +2,7 @@
 layout: default
 title: 日本語トップ
 nav_order: 1
-permalink: /ja/
+permalink: /ja-JP/
 lang: ja
 content_id: wiki_home
 ---

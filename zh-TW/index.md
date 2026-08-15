@@ -2,8 +2,8 @@
 layout: default
 title: 中文首頁
 nav_order: 1
-permalink: /zh/
-lang: zh
+permalink: /zh-TW/
+lang: zh-TW
 content_id: wiki_home
 ---
 
