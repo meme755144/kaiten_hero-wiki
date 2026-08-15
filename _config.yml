@@ -17,3 +17,18 @@ color_scheme: dark
 # 讓 GitHub Pages 允許遠端載入主題
 plugins:
   - jekyll-remote-theme
+
+# 網站目前支援的語言清單（未來想增加語言，只要在這邊多加一行就好！）
+languages:
+  - code: "zh-TW"
+    label: "繁體中文"
+    flag: "🇹🇼"
+    home_url: "/zh-TW/"
+  - code: "ja-JP"
+    label: "日本語"
+    flag: "🇯🇵"
+    home_url: "/ja-JP/"
+  # - code: "en-US"         # 未來想開英文版時，只要把這兩行的註解 # 拿掉就自動生效！
+  #   label: "English"
+  #   flag: "🇺🇸"
+  #   home_url: "/en-US/"

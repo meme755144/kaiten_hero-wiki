@@ -1,0 +1,18 @@
+<!-- 網頁最上方：強行推至最右側的動態語言切換按鈕 -->
+<div class="topbar-lang-switcher" style="display: flex; gap: 12px; align-items: center; font-size: 0.9em; margin-left: auto; order: 99; padding-right: 20px;">
+  {% for lang_item in site.languages %}
+    {% if page.lang == lang_item.code %}
+      <span style="font-weight: bold; color: var(--link-color); background: var(--feedback-info-background); padding: 4px 8px; border-radius: 4px; white-space: nowrap;">
+        {{ lang_item.flag }} {{ lang_item.label }}
+      </span>
+    {% else %}
+      <a href="{{ target_page.url | relative_url | default: lang_item.home_url }}" style="text-decoration: none; opacity: 0.8; white-space: nowrap;">
+        {% assign target_page = site.pages | where: "content_id", page.content_id | where: "lang", lang_item.code | first %}
+        {{ lang_item.flag }} {{ lang_item.label }}
+      </a>
+    {% endif %}
+    {% unless forloop.last %}
+      <span style="color: var(--border-color); opacity: 0.5;">|</span>
+    {% endunless %}
+  {% endfor %}
+</div>

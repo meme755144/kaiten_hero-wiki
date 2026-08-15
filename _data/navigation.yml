@@ -1,0 +1,17 @@
+# 繁體中文左側側邊欄目錄
+zh-TW:
+  - title: "🏠 Wiki 首頁"
+    url: "/zh-TW/"
+  - title: "⚔️ 英雄圖鑑"
+    url: "/zh-TW/heroes/red/"
+  - title: "💎 裝備資料"
+    url: "/zh-TW/equipments/"
+
+# 日本語左側サイドバーメニュー
+ja-JP:
+  - title: "🏠 Wiki トップ"
+    url: "/ja-JP/"
+  - title: "⚔️ キャラクター図鑑"
+    url: "/ja-JP/heroes/red/"
+  - title: "💎 装備データベース"
+    url: "/ja-JP/equipments/"
