@@ -4,7 +4,7 @@ description: "Kaiten Hero 多語言遊戲知識庫"
 # 遠端主題設定
 remote_theme: "just-the-docs/just-the-docs"
 
-baseurl: "" # 如果是個人主頁儲存庫，請填 ""
+baseurl: "/kaiten_hero-wiki" # 如果是個人主頁儲存庫，請填 ""
 url: "https://github.io"
 
 # 導覽與搜尋設定
