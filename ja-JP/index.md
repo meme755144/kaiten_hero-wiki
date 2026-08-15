@@ -3,7 +3,7 @@ layout: default
 title: 日本語トップ
 nav_order: 1
 permalink: /ja-JP/
-lang: ja
+lang: ja-JP
 content_id: wiki_home
 ---
 

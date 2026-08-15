@@ -1,0 +1,27 @@
+<!-- 1. 語言切換按鈕區塊 -->
+<div class="lang-switcher" style="padding: 10px 0; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); font-size: 0.9em;">
+  <!-- 中文按鈕 -->
+  {% if page.lang == 'zh-TW' %}
+    <span style="font-weight: bold; color: var(--link-color);">🇹🇼 繁體中文</span>
+  {% else %}
+    {% assign target_page = site.pages | where: "content_id", page.content_id | where: "lang", "zh-TW" | first %}
+    <a href="{{ target_page.url | relative_url | default: '/zh-TW/' }}">🇹🇼 繁體中文</a>
+  {% endif %}
+
+  <span style="margin: 0 8px; color: var(--border-color);">|</span>
+
+  <!-- 日文按鈕 -->
+  {% if page.lang == 'ja-JP' %}
+    <span style="font-weight: bold; color: var(--link-color);">🇯🇵 日本語</span>
+  {% else %}
+    {% assign target_page = site.pages | where: "content_id", page.content_id | where: "lang", "ja-JP" | first %}
+    <a href="{{ target_page.url | relative_url | default: '/ja-JP/' }}">🇯🇵 日本語</a>
+  {% endif %}
+</div>
+
+<!-- 2. 語言隔離核心：只抓取跟目前網頁相同語言的目錄 -->
+{% assign current_lang = page.lang | default: 'zh-TW' %}
+{% assign nav_pages = site.html_pages | where_exp: "item", "item.parent == nil" | where_exp: "item", "item.nav_exclude != true" | where: "lang", current_lang %}
+
+<!-- 3. 渲染過濾後的乾淨目錄 -->
+{% include nav_links.html pages=nav_pages %}
