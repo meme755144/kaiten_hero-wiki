@@ -12,7 +12,7 @@ permalink: /
     if (userLang.toLowerString().indexOf('ja') !== -1) {
       window.location.href = "{{ site.baseurl }}/ja/";
     } else {
-      window.location.href = "{{ site.baseurl }}/zh/";
+      window.location.href = "{{ site.baseurl }}/zhTW/";
     }
   </script>
 </head>
