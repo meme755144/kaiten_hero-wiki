@@ -10,9 +10,9 @@ permalink: /
     // 偵測瀏覽器語言，自動分流
     var userLang = navigator.language || navigator.userLanguage; 
     if (userLang.toLowerString().indexOf('ja') !== -1) {
-      window.location.href = "{{ site.baseurl }}/ja/";
+      window.location.href = "{{ site.baseurl }}/ja-JP/";
     } else {
-      window.location.href = "{{ site.baseurl }}/zhTW/";
+      window.location.href = "{{ site.baseurl }}/zh-TW/";
     }
   </script>
 </head>
