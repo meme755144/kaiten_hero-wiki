@@ -1,3 +1,6 @@
+---
+layout: null
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,13 +10,9 @@
   <!-- 1. 把 Jekyll 資料庫轉換為 JSON 格式，保持 VS Code 畫面乾淨全綠 -->
   <script id="jekyll-languages-data" type="application/json">
     [
-      
-        { "code": "zh-TW", "url": "/kaiten_hero-wiki/zh-TW/" },
-      
-        { "code": "ja-JP", "url": "/kaiten_hero-wiki/ja-JP/" },
-      
-        { "code": "en", "url": "/kaiten_hero-wiki/en/" }
-      
+      {% for lang_item in site.languages %}
+        { "code": "{{ lang_item.code }}", "url": "{{ lang_item.home_url | relative_url }}" }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
     ]
   </script>
 

@@ -2633,3 +2633,11 @@ a.skip-to-main { left: -999px; position: absolute; top: auto; width: 1px; height
 a.skip-to-main:focus, a.skip-to-main:active { color: #5ea1fb; background-color: #27262b; left: auto; top: auto; width: 30%; height: auto; overflow: auto; margin: 10px 35%; padding: 5px; border-radius: 15px; border: 4px solid #264caf; text-align: center; font-size: 1.2em; z-index: 999; }
 
 div.opaque { background-color: #27262b; }
+
+/*  Just the Docs 官方認證的客製化樣式接口 在此處調整 html 基礎字級，全站的攻略文章、數據表格、側邊欄會完美等比例放大
+*/
+html { font-size: 130% !important; /* 調成 112%，字體會明顯變大、變得更清晰易讀 */ }
+
+/*  自由加入：如果覺得左側選單的字特別需要再放大一些，可以單獨微調
+*/
+.nav-list-link { font-size: 0.95em !important; }
