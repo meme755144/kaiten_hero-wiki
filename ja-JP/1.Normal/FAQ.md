@@ -4,6 +4,7 @@ title: "よくある質問"
 parent: "全般"        # 關鍵：認大分類 A 當爸爸
 permalink: /ja-JP/Normal/FAQ/  # 真正的網頁網址
 nav_order: 1
+lang: ja-JP
 ---
 
 # 這裡才是 A1 的內文

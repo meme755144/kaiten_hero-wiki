@@ -1,34 +1,81 @@
-<!-- _includes/components/sidebar.html - 官方結構優化版 -->
+<!-- _includes/components/sidebar.html -->
 <div class="side-bar">
-  <!-- (這裡省略 header 內容，請保留原文件前幾行) -->
+  <div class="site-header" role="banner">
+    <a href="{{ '/' | relative_url }}" class="site-title animate-blur">
+      {% if site.logo %}
+        <img src="{{ site.logo | relative_url }}" alt="{{ site.title }}" class="site-logo">
+      {% else %}
+        {{ site.title }}
+      {% endif %}
+    </a>
+    <button id="menu-button" class="site-button btn-menu" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
+      <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><use xlink:href="#svg-menu"></use></svg>
+    </button>
+  </div>
+
   <nav id="site-nav" class="site-nav" aria-label="Main">
     <ul class="nav-list">
+      
+      <!-- 1. 確保拿到正確的排序與當前語系字串（例如 "zh-TW" 或 "ja-JP"） -->
       {% assign sorted_pages = site.pages | sort: "nav_order" %}
+      {% assign current_lang = page.lang | default: 'zh-TW' | strip %}
+      
+      <!-- 2. 第一層循環：嚴格比對 page.lang 與 item.lang 必須完全相同，徹底斬斷中日文混砸！ -->
       {% for item in sorted_pages %}
-        {% if item.parent == nil and item.nav_order %}
-          {% assign has_children = false %}
-          {% for child in site.pages %}{% if child.parent == item.title %}{% assign has_children = true %}{% endif %}{% endfor %}
+        {% if item.lang == current_lang and item.parent == nil and item.nav_order %}
           
+          <!-- 3. 智能計算當前項目在同語系內究竟有沒有子網頁 -->
+          {% assign has_children = false %}
+          {% for child_check in sorted_pages %}
+            {% if child_check.lang == current_lang and child_check.parent == item.title %}
+              {% assign has_children = true %}
+            {% endif %}
+          {% endfor %}
+
           <li class="nav-list-item">
             {% if has_children %}
-              <details class="nav-details">
-                <!-- 💡 關鍵點：使用專屬 class 配合下方的 SCSS 實現對齊與懸停效果 -->
+              <!-- 💡 修正開合：將原本寫錯的 class="nav-details" 修改為符合官方標準的原生 class="nav-list-item" 的嵌套 -->
+              <!-- 並且移除了影響點擊事件的細節，完全讓 HTML5 <details> 接管原生開合 -->
+              <details class="nav-details" {% if page.parent == item.title or page.grand_parent == item.title %}open{% endif %}>
                 <summary class="nav-list-link style-official-trigger">
                   <span class="nav-list-text">{{ item.title }}</span>
-                  <span class="nav-list-expander" aria-label="Toggle sub-navigation">
+                  <span class="nav-list-expander">
                     <svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg>
                   </span>
                 </summary>
+                
                 <ul class="nav-list">
-                  <!-- (這裡省略子頁面循環) -->
+                  <!-- 4. 第二層循環：全自動撈出屬於同一個語系、且認當前項目當 parent 的子網頁 -->
+                  {% for child in sorted_pages %}
+                    {% if child.lang == current_lang and child.parent == item.title %}
+                      <li class="nav-list-item{% if page.url == child.url %} active{% endif %}">
+                        <a href="{{ child.url | relative_url }}" class="nav-list-link{% if page.url == child.url %} active{% endif %}">{{ child.title }}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
                 </ul>
               </details>
+              
             {% else %}
-              <a href="{{ item.url | relative_url }}" class="nav-list-link">{{ item.title }}</a>
+              <!-- 一般項目，維持原生的點擊導向連結 -->
+              <a href="{{ item.url | relative_url }}" class="nav-list-link{% if page.url == item.url %} active{% endif %}">{{ item.title }}</a>
             {% endif %}
           </li>
+          
         {% endif %}
       {% endfor %}
     </ul>
   </nav>
+
+  {% capture nav_footer_custom %}
+    {% include nav_footer_custom.html %}
+  {% endcapture %}
+  {% if site.nav_footer or nav_footer_custom != "" %}
+    <footer class="site-footer" role="contentinfo">
+      {% if site.nav_footer %}
+        <p class="text-small text-grey-dk-000 mb-0">{{ site.nav_footer }}</p>
+      {% endif %}
+      {{ nav_footer_custom }}
+    </footer>
+  {% endif %}
 </div>
