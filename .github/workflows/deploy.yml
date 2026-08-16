@@ -28,12 +28,7 @@ jobs:
         with:
           ruby-version: '3.2'
           bundle-cache: true
-
-      - name: Install Dependencies
-        run: |
-          gem install bundler
-          bundle install
-
+          
       - name: Automatically Inject Git Timestamp into Front Matter (All Languages)
         run: |
           echo "=== 開始進行多語言資料夾全自動掃描 ==="

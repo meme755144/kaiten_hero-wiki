@@ -28,7 +28,15 @@
 {% if page.last_updated %}
   <div class="page-meta-top">
     <span class="meta-label">📅 最後修改時間:</span> 
-    <span class="meta-date">{{ page.last_updated | date: "%Y-%m-%d %H:%M:%S" }}</span>
+    <span class="meta-date">
+      <!-- 先嘗試用標準日期格式化，如果出不來，就直接把字串暴力倒出來（確保 100% 聽話顯示） -->
+      {% assign formatted_d = page.last_updated | date: "%Y-%m-%d %H:%M:%S" %}
+      {% if formatted_d and formatted_d != "" and formatted_d != "0001-01-01 00:00:00" %}
+        {{ formatted_d }}
+      {% else %}
+        {{ page.last_updated | replace: '"', '' }}
+      {% endif %}
+    </span>
   </div>
   <hr class="meta-hr">
 {% endif %}
