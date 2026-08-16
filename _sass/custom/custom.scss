@@ -3,6 +3,22 @@
   在此處調整 html 基礎字級，全站的攻略文章、數據表格、側邊欄會完美等比例放大
 */
 
+html[data-theme="dark"] {
+  @import "color_schemes/dark";
+  
+  /* 強制微調深色模式下的自訂控制鈕樣式 */
+  --border-color: #38383a;
+  --text-color: #f5f5f7;
+}
+
+html[data-theme="light"] {
+  @import "color_schemes/light";
+  
+  /* 強制微調明亮模式下的自訂控制鈕樣式 */
+  --border-color: #e5e5ea;
+  --text-color: #1c1c1e;
+}
+
 html {
   font-size: 130% !important; /* 調成 112%，字體會明顯變大、變得更清晰易讀 */
 }

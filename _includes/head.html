@@ -1,8 +1,0 @@
-<script>
-  // 在瀏覽器還沒渲染任何一個 HTML 圖形前，秒速讀取玩家上一次的亮暗選擇
-  // 如果玩家以前點過月亮，第一時間直接鎖定 data-theme="dark"，徹底根除重新整理洗掉的問題
-  (function() {
-    var savedTheme = localStorage.getItem('jtd-theme') || 'dark'; // 建議預設為 dark
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  })();
-</script>
