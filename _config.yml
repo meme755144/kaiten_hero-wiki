@@ -20,6 +20,11 @@ color_schemes:
 plugins:
   - jekyll-remote-theme
 
+exclude:
+  - vendor/
+  - Gemfile
+  - Gemfile.lock
+
 # 網站目前支援的語言清單（未來想增加語言，只要在這邊多加一行就好！）
 languages:
   - code: "zh-TW"
