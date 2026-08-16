@@ -37,7 +37,9 @@ jobs:
       - name: Automatically Inject Git Timestamp into Front Matter
         run: |
           echo "=== 開始進行多語言資料夾全自動掃描 ==="
-          find . -type f -name "*.md" ! -path '*/.*' ! -path './vendor/*' ! -path './_site/*' | while read file; do
+          
+          /* 💡 修正關鍵：改用標準 Linux -prune 語法，把 vendor、_site、.git 資料夾徹底擋在門外 */
+          find . \( -path "./vendor" -o -path "./_site" -o -path "./.git" \) -prune -o -type f -name "*.md" -print | while read file; do
             git_date=$(git log -1 --format="%cd" --date=iso "$file")
             if [ ! -z "$git_date" ]; then
               formatted_date=$(date -d "$git_date" "+%Y-%m-%d %H:%M:%S")
