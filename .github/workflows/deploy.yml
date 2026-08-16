@@ -23,26 +23,41 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Ruby and Enable Cache
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
-          bundle-cache: true # 💡 讓官方完全接管：它會自動執行 bundle install 並保證 100% 寫入快取
+          bundle-cache: false 
+          
+      - name: Cache Ruby Gems
+        uses: actions/cache@v4
+        id: gem-cache
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Install Dependencies (Only Runs When Cache Misses)
+        run: |
+          bundle config set path 'vendor/bundle'
+          bundle install
 
       - name: Automatically Inject Git Timestamp into Front Matter
         run: |
-          echo "=== 開始進行多語言資料夾全自動掃描 ==="
+          echo "=== Start Dynamic Scanning ==="
           
+          # 💡 使用標準的 prune 語法，絕對不碰快取夾 vendor 與 _site
           find . \( -path "./vendor" -o -path "./_site" -o -path "./.git" \) -prune -o -type f -name "*.md" -print | while read file; do
             git_date=$(git log -1 --format="%cd" --date=iso "$file")
             if [ ! -z "$git_date" ]; then
               formatted_date=$(date -d "$git_date" "+%Y-%m-%d %H:%M:%S")
               awk -v d="$formatted_date" 'NR==2{print "last_updated: \"" d "\""}1' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
-              echo "✅ 成功注入時間 -> [$formatted_date] : $file"
+              echo "Success: [$formatted_date] : $file"
             fi
           done
           
-          echo "=== 多語言時間戳記全數注入完成 ==="
+          echo "=== Scan Finished ==="
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
