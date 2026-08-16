@@ -1,11 +1,10 @@
 <div class="topbar-control-center"
   style="display: flex; gap: 14px; align-items: center; font-size: 0.85em; margin-left: auto; order: 99; padding-right: 10px; height: 100%;">
 
-  <!-- 1. 精美多語系切換器：加入微幅陰影與滑鼠懸停放大 -->
+  <!-- 1. 多語系切換器 -->
   <div class="topbar-lang-switcher" style="display: flex; gap: 8px; align-items: center; height: 100%;">
     {% for lang_item in site.languages %}
     {% if page.lang == lang_item.code %}
-    <!-- 當前語言：採用主題原生的提示標籤樣式，高度對齊 -->
     <span
       style="font-weight: 600; color: var(--link-color); background: var(--feedback-info-background); padding: 5px 10px; border-radius: 6px; white-space: nowrap; border: 1px solid var(--border-color); display: inline-flex; align-items: center; height: 32px; box-sizing: border-box;">
       {{ lang_item.flag }}&nbsp;&nbsp;{{ lang_item.label }}
@@ -31,46 +30,37 @@
     {% endfor %}
   </div>
 
-  <!-- 優雅的分隔線 -->
+  <!-- 分隔線 -->
   <span style="width: 1px; height: 18px; background: var(--border-color); opacity: 0.6; margin: 0 2px;"></span>
 
-  <!-- 2. 精雕亮暗切換按鈕：強制鎖定正方形（32x32），與語言標籤完美等高齊平 -->
-  <button id="js-theme-toggle" class="btn"
+  <!-- 2. 精雕亮暗切換按鈕 -->
+  <button id="js-theme-toggle" class="btn" data-theme-btn
     style="background: transparent; border: 1px solid var(--border-color); width: 32px; height: 32px; padding: 0; border-radius: 6px; cursor: pointer; font-size: 1.1em; display: inline-flex; align-items: center; justify-content: center; color: var(--text-color); box-sizing: border-box; transition: all 0.2s ease;"
     onmouseover="this.style.background='var(--feedback-info-background)'; this.style.transform='scale(1.05)';"
     onmouseout="this.style.background='transparent'; this.style.transform='scale(1)';">
-    ☀️
+    <span id="js-theme-icon">☀️</span>
   </button>
-
-  <!-- 3. 亮暗模式控制核心 JavaScript 引擎 -->
-  <script>
-    (function () {
-      var themeToggle = document.getElementById('js-theme-toggle');
-      if (!themeToggle) return;
-
-      function updateButtonIcon() {
-        var currentTheme = jtd.getTheme();
-        if (currentTheme === 'dark') {
-          themeToggle.textContent = '🌙';
-        } else {
-          themeToggle.textContent = '☀️';
-        }
-      }
-
-      // 網頁一載入，先去讀取上次記錄的亮暗模式喜好
-      var savedTheme = localStorage.getItem('jtd-theme');
-      if (savedTheme && savedTheme !== jtd.getTheme()) {
-        jtd.setTheme(savedTheme);
-      }
-
-      updateButtonIcon();
-
-      themeToggle.addEventListener('click', function () {
-        var nextTheme = jtd.getTheme() === 'dark' ? 'light' : 'dark';
-        jtd.setTheme(nextTheme);
-        localStorage.setItem('jtd-theme', nextTheme);
-        updateButtonIcon();
-      });
-    })();
-  </script>
 </div>
+
+<!-- 3. 亮暗模式按鈕綁定 JavaScript 引擎 -->
+<script>
+  (function () {
+    // 使用純原生 JS 直接操控 data-theme，繞過 jtd 原生可能會鎖死的機制
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme') || 'light';
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      
+      // 更新按鈕圖示 (假設 ID 為 js-theme-icon)
+      var icon = document.getElementById('js-theme-icon');
+      if (icon) icon.textContent = next === 'dark' ? '🌙' : '☀️';
+    }
+
+    // 綁定點擊事件
+    var themeToggle = document.querySelector('[data-theme-btn]') || document.getElementById('js-theme-toggle');
+    if (themeToggle) {
+      themeToggle.addEventListener('click', toggleTheme);
+    }
+  })();
+</script>
