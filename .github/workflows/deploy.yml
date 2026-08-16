@@ -18,8 +18,9 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      # 💡 升級到 v5：完全相容新版 Node 環境，清除警告
       - name: Checkout Repository with Full History
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -28,9 +29,10 @@ jobs:
         with:
           ruby-version: '3.2'
           bundle-cache: false 
-          
+
+      # 💡 升級到 v5：全面採用最新版快取機制，清除警告
       - name: Cache Ruby Gems
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: gem-cache
         with:
           path: vendor/bundle
@@ -47,7 +49,6 @@ jobs:
         run: |
           echo "=== Start Dynamic Scanning ==="
           
-          # 💡 使用標準的 prune 語法，絕對不碰快取夾 vendor 與 _site
           find . \( -path "./vendor" -o -path "./_site" -o -path "./.git" \) -prune -o -type f -name "*.md" -print | while read file; do
             git_date=$(git log -1 --format="%cd" --date=iso "$file")
             if [ ! -z "$git_date" ]; then
@@ -59,16 +60,18 @@ jobs:
           
           echo "=== Scan Finished ==="
 
+      # 💡 升級到 v5：相容新版 Node 環境
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
 
       - name: Build with Jekyll
         run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
 
+      # 💡 升級 v4 搭配 deploy-pages v4，全面符合最新版規範
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
 
       - name: Deploy to GitHub Pages
         id: deployment
