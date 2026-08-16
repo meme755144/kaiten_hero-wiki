@@ -3,7 +3,7 @@
   在此處調整 html 基礎字級，全站的攻略文章、數據表格、側邊欄會完美等比例放大
 */
 
-/* 1. 玩家切換到暗色模式時，完美對接官方原生深色變數 */
+/* 切換到暗色模式時，完美對接官方原生深色變數 */
 html[data-theme="dark"] {
   --body-background-color: #1f1f24;
   --sidebar-color: #16161a;
@@ -16,7 +16,7 @@ html[data-theme="dark"] {
   --bubble-background-color: #2d3748;
 }
 
-/* 2. 玩家處於預設明亮模式時的變數 */
+/* 處於預設明亮模式時的變數 */
 html[data-theme="light"] {
   --body-background-color: #ffffff;
   --sidebar-color: #f7f7f9;
@@ -34,4 +34,38 @@ html {
 */
 .nav-list-link {
   font-size: 0.95em !important; 
+}
+
+/* 時間資訊區塊整體排版 */
+.page-meta-top {
+  display: flex;
+  align-items: center;
+  font-size: 0.85em;                 /* 稍微縮小字體，呈現低調精緻的備註質感 */
+  color: var(--text-color);          /* 動態整合主題預設字體顏色 */
+  opacity: 0.75;                     /* 微調透明度，確保不干擾主要內文閱讀 */
+  margin-top: -5px;                  /* 向上緊貼麵包屑（Breadcrumbs）導覽 */
+  margin-bottom: 8px;                /* 與下方的水平分割線拉開適當間距 */
+
+  /* 「📅 Last-modified:」文字標籤 */
+  .meta-label {
+    font-weight: bold;               /* 字體加粗 */
+    margin-right: 6px;               /* 與後方日期保持微小間距 */
+  }
+
+  /* 顯示日期的藍色圓角小方塊 */
+  .meta-date {
+    background-color: var(--feedback-info-background-color, #e8f4fd); /* 自動適應白天/黑夜模式的淡藍底色 */
+    color: var(--feedback-info-text-color, #0366d6);                 /* 自動適應的深藍色字體 */
+    padding: 2px 8px;                                                /* 方塊內邊距 */
+    border-radius: 4px;                                              /* 精緻的圓角外觀 */
+    font-family: var(--font-family-monospace, monospace);            /* 使用等寬字體，展現資料庫系統的科技感 */
+  }
+}
+
+/* 時間區塊下方的優雅水平虛線 */
+hr.meta-hr {
+  border: none;
+  border-top: 1px dashed var(--border-color); /* 備用：動態調用 Just the Docs 官方的邊框變數（白天變灰，黑夜變深灰） */
+  margin-top: 0;
+  margin-bottom: 24px;                        /* 與下方的網頁大標題（H1）拉開舒適的閱讀距離 */
 }

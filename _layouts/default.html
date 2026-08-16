@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html lang="{{ site.lang | default: 'en-US' }}">
+{% include head.html %}
+<body>
+  <a class="skip-to-content" href="#main-content">Skip to content</a>
+
+  {% include icons/icons.html %}
+
+  <div class="main-wrapper">
+    {% include sidebar.html %}
+
+    <div class="main-content-wrap">
+      {% include header.html %}
+
+      <div id="main-content" class="main-content" role="main">
+        
+        <!-- 💡 麵包屑導覽區塊 -->
+        {% if page.breadcrumbs != false %}
+          {% include breadcrumbs.html %}
+        {% endif %}
+
+        <!-- 📅 自動偵測並在最上方顯示 GitHub 最新修改時間 -->
+        {% if page.last_updated %}
+          <div class="page-meta-top">
+            <span class="meta-label">📅 Last-modified:</span> 
+            <span class="meta-date">{{ page.last_updated | date: "%Y-%m-%d %H:%M:%S" }}</span>
+          </div>
+        {% endif %}
+        <hr class="meta-hr">
+        <!-- 💡 頂部時間區塊結束 -->
+
+        <!-- 📝 主要內文區塊 -->
+        {{ content }}
+
+        {% if page.has_children == true and page.has_toc != false %}
+          <hr>
+          <h2 class="text-delta">Table of contents</h2>
+          {% include toc.html %}
+        {% endif %}
+
+        {% include footer.html %}
+      </div>
+    </div>
+  </div>
+
+  {% if site.search_enabled != false %}
+    {% include search_script.html %}
+  {% endif %}
+</body>
+</html>

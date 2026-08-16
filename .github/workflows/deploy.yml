@@ -1,0 +1,75 @@
+name: Auto Update Git Timestamp and Deploy
+
+on:
+  push:
+    branches:
+      - main # 如果您的預設分支是 master，請將此處改為 master
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository with Full History
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 關鍵：必須拉取完整 Git 歷史紀錄，Actions 才能撈到每個網頁的 Commit 時間
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundle-cache: true
+
+      - name: Install Dependencies
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Automatically Inject Git Timestamp into Front Matter (All Languages)
+        run: |
+          echo "=== 開始進行多語言資料夾全自動掃描 ==="
+          
+          # 💡 動態分析：利用正則表達式，自動撈取所有符合語系命名規則的資料夾（如 zh-TW, ja-JP, en-US, ko-KR 等）
+          # 同時也會一併抓取根目錄下的 index.md 或 README.md，確保毫無遺漏
+          find . -type f -name "*.md" ! -path '*/.*' ! -path './vendor/*' ! -path './_site/*' | while read file; do
+            
+            # 1. 透過 Git 核心指令撈取該檔案最後一次在 GitHub 被 Commit 的 ISO 時間
+            git_date=$(git log -1 --format="%cd" --date=iso "$file")
+            
+            if [ ! -z "$git_date" ]; then
+              # 2. 將複雜的時間格式精簡化為 YYYY-MM-DD
+              formatted_date=$(date -d "$git_date" "+%Y-%m-%d %H:%M:%S")
+              
+              # 3. 檢查檔案第二行是否已經存在 last_updated（避免重複寫入）
+              if ! sed -n '2p' "$file" | grep -q "last_updated:"; then
+                # 4. 如果沒有，使用 sed 安全地在 Front Matter 頂部第二行強行插入時間戳記
+                sed -i "2i last_updated: $formatted_date" "$file"
+                echo "✅ 成功注入時間 -> [$formatted_date] : $file"
+              fi
+            fi
+          done
+          echo "=== 多語言時間戳記全數注入完成 ==="
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Build with Jekyll
+        run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
