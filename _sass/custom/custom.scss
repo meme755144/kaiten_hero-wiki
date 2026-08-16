@@ -26,81 +26,113 @@ html[data-theme="light"] {
 }
 
 html {
-  font-size: 130% !important; /* 調成 112%，字體會明顯變大、變得更清晰易讀 */
+  font-size: 130% !important;
+  /* 調成 112%，字體會明顯變大、變得更清晰易讀 */
 }
 
-/* 
-  自由加入：如果覺得左側選單的字特別需要再放大一些，可以單獨微調
-*/
+/* 自由加入：如果覺得左側選單的字特別需要再放大一些，可以單獨微調 */
 .nav-list-link {
-  font-size: 0.95em !important; 
+  font-size: 0.95em !important;
 }
 
 /* 時間資訊區塊整體排版 */
 .page-meta-top {
   display: flex;
   align-items: center;
-  font-size: 0.85em;                 /* 稍微縮小字體，呈現低調精緻的備註質感 */
-  color: var(--text-color);          /* 動態整合主題預設字體顏色 */
-  opacity: 0.75;                     /* 微調透明度，確保不干擾主要內文閱讀 */
-  margin-top: -5px;                  /* 向上緊貼麵包屑（Breadcrumbs）導覽 */
-  margin-bottom: 8px;                /* 與下方的水平分割線拉開適當間距 */
+  font-size: 0.85em;
+  /* 稍微縮小字體，呈現低調精緻的備註質感 */
+  color: var(--text-color);
+  /* 動態整合主題預設字體顏色 */
+  opacity: 0.75;
+  /* 微調透明度，確保不干擾主要內文閱讀 */
+  margin-top: -5px;
+  /* 向上緊貼麵包屑（Breadcrumbs）導覽 */
+  margin-bottom: 8px;
+  /* 與下方的水平分割線拉開適當間距 */
 
   /* 「📅 Last-modified:」文字標籤 */
   .meta-label {
-    font-weight: bold;               /* 字體加粗 */
-    margin-right: 6px;               /* 與後方日期保持微小間距 */
+    font-weight: bold;
+    /* 字體加粗 */
+    margin-right: 6px;
+    /* 與後方日期保持微小間距 */
   }
 
   /* 顯示日期的藍色圓角小方塊 */
   .meta-date {
-    background-color: var(--feedback-info-background-color, #e8f4fd); /* 自動適應白天/黑夜模式的淡藍底色 */
-    color: var(--feedback-info-text-color, #0366d6);                 /* 自動適應的深藍色字體 */
-    padding: 2px 8px;                                                /* 方塊內邊距 */
-    border-radius: 4px;                                              /* 精緻的圓角外觀 */
-    font-family: var(--font-family-monospace, monospace);            /* 使用等寬字體，展現資料庫系統的科技感 */
+    background-color: var(--feedback-info-background-color, #e8f4fd);
+    /* 自動適應白天/黑夜模式的淡藍底色 */
+    color: var(--feedback-info-text-color, #0366d6);
+    /* 自動適應的深藍色字體 */
+    padding: 2px 8px;
+    /* 方塊內邊距 */
+    border-radius: 4px;
+    /* 精緻的圓角外觀 */
+    font-family: var(--font-family-monospace, monospace);
+    /* 使用等寬字體，展現資料庫系統的科技感 */
   }
 }
 
 /* 時間區塊下方的優雅水平虛線 */
 hr.meta-hr {
   border: none;
-  border-top: 1px dashed var(--border-color); /* 備用：動態調用 Just the Docs 官方的邊框變數（白天變灰，黑夜變深灰） */
+  border-top: 1px dashed var(--border-color);
+  /* 備用：動態調用 Just the Docs 官方的邊框變數（白天變灰，黑夜變深灰） */
   margin-top: 0;
-  margin-bottom: 24px;                        /* 與下方的網頁大標題（H1）拉開舒適的閱讀距離 */
+  margin-bottom: 24px;
+  /* 與下方的網頁大標題（H1）拉開舒適的閱讀距離 */
 }
 
-/* 初始化 summary，確保為 Flex 佈局 */
-summary.style-official-trigger {
+/* 確保第一層大分類按鈕文字與箭頭水平對齊 */
+.nav-list-link.style-pure-trigger {
+  position: relative !important;
   display: flex !important;
-  align-items: center;       /* 垂直居中 */
-  padding-right: 40px;       /* 為箭頭預留空間 */
-  cursor: pointer;
-  list-style: none;
-  
-  &::-webkit-details-marker { display: none; }
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: 2.5rem !important;      
+  padding-right: 2.5rem !important;   
+  font-weight: bold !important;       
+  cursor: pointer !important;
 }
 
-/* 精確定位箭頭與 hover 效果 */
-.style-official-trigger .nav-list-expander {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%); /* 幾何居中魔法 */
-  display: flex;
-  align-items: center;
+/* 懸停 (Hover) 質感半透明灰色亮塊 */
+.nav-list-link.style-pure-trigger:hover {
+  background-color: var(--nav-list-item-hover-background-color, rgba(0, 0, 0, 0.04)) !important;
+  color: var(--nav-list-item-hover-color, inherit) !important;
+}
+
+/* 箭頭絕對定位幾何置中 */
+.style-pure-trigger .nav-list-expander {
+  position: absolute !important;
+  right: 14px !important;             
+  top: 50% !important;
+  transform: translateY(-50%) !important; 
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  margin-top: 0 !important;
 
   svg {
-    transition: transform 0.25s; /* 順滑轉向 */
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    fill: currentColor !important;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important; 
   }
 }
 
-/* 當點擊大分類展開時，箭頭向下 */
-details.nav-details[open] > .style-official-trigger .nav-list-expander svg {
-  transform: rotate(90deg);
+/* 💡 終極修正：【唯一合法顯示大閘門】只有當帶有 js-open 類別時，子選單才允許顯示 */
+.nav-list-item.js-open .style-sub-menu-box {
+  display: block !important;
 }
 
-/* 懸停（Hover）半透明效果 */
-summary.style-official-trigger:hover {
-  background-color: var(--nav-list-item-hover-background-color, rgba(0, 0, 0, 0.04)) !important;
+/* 💡 終極修正：【唯一合法旋轉大閘門】只有當帶有 js-open 類別時，小箭頭才允許順時針旋轉 90 度朝下 */
+.nav-list-item.js-open .style-pure-trigger .nav-list-expander svg {
+  transform: rotate(90deg) !important;
+}
+
+/* 子選單排版優化：預設隱藏，並向右縮進做出完美層級感 */
+.style-sub-menu-box {
+  display: none !important;           /* 💡 預設強制完全收合隱藏 */
+  padding-left: 1rem !important;      
+  margin-top: 0.25rem !important;
 }

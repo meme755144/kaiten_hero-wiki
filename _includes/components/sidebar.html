@@ -1,5 +1,6 @@
 <!-- _includes/components/sidebar.html -->
 <div class="side-bar">
+  
   <div class="site-header" role="banner">
     <a href="{{ '/' | relative_url }}" class="site-title animate-blur">
       {% if site.logo %}
@@ -16,48 +17,51 @@
   <nav id="site-nav" class="site-nav" aria-label="Main">
     <ul class="nav-list">
       
-      <!-- 1. 確保拿到正確的排序與當前語系字串（例如 "zh-TW" 或 "ja-JP"） -->
-      {% assign sorted_pages = site.pages | sort: "nav_order" %}
-      {% assign current_lang = page.lang | default: 'zh-TW' | strip %}
+      {% if page.url contains '/ja-JP/' %}
+        {% assign detected_lang = 'ja-JP' %}
+      {% else %}
+        {% assign detected_lang = 'zh-TW' %}
+      {% endif %}
       
-      <!-- 2. 第一層循環：嚴格比對 page.lang 與 item.lang 必須完全相同，徹底斬斷中日文混砸！ -->
+      {% assign sorted_pages = site.pages | sort: "nav_order" %}
       {% for item in sorted_pages %}
-        {% if item.lang == current_lang and item.parent == nil and item.nav_order %}
+        {% if item.url contains detected_lang and item.parent == nil and item.nav_order %}
           
-          <!-- 3. 智能計算當前項目在同語系內究竟有沒有子網頁 -->
           {% assign has_children = false %}
           {% for child_check in sorted_pages %}
-            {% if child_check.lang == current_lang and child_check.parent == item.title %}
+            {% if child_check.url contains detected_lang and child_check.parent == item.title %}
               {% assign has_children = true %}
             {% endif %}
           {% endfor %}
 
-          <li class="nav-list-item">
+          <!-- 💡 初始狀態判斷：如果目前就在這個分類的內頁，預設讓它展開 -->
+          {% assign is_current_category = false %}
+          {% if page.url == item.url or page.parent == item.title or page.grand_parent == item.title %}
+            {% assign is_current_category = true %}
+          {% endif %}
+
+          <!-- 💡 核心修正 1：利用 class "js-open" 當作唯一合法的開合鑰匙，active 只負責顏色高亮 -->
+          <li class="nav-list-item{% if page.url == item.url %} active{% endif %}{% if is_current_category %} js-open{% endif %}">
             {% if has_children %}
-              <!-- 💡 修正開合：將原本寫錯的 class="nav-details" 修改為符合官方標準的原生 class="nav-list-item" 的嵌套 -->
-              <!-- 並且移除了影響點擊事件的細節，完全讓 HTML5 <details> 接管原生開合 -->
-              <details class="nav-details" {% if page.parent == item.title or page.grand_parent == item.title %}open{% endif %}>
-                <summary class="nav-list-link style-official-trigger">
-                  <span class="nav-list-text">{{ item.title }}</span>
-                  <span class="nav-list-expander">
-                    <svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg>
-                  </span>
-                </summary>
-                
-                <ul class="nav-list">
-                  <!-- 4. 第二層循環：全自動撈出屬於同一個語系、且認當前項目當 parent 的子網頁 -->
-                  {% for child in sorted_pages %}
-                    {% if child.lang == current_lang and child.parent == item.title %}
-                      <li class="nav-list-item{% if page.url == child.url %} active{% endif %}">
-                        <a href="{{ child.url | relative_url }}" class="nav-list-link{% if page.url == child.url %} active{% endif %}">{{ child.title }}</a>
-                      </li>
-                    {% endif %}
-                  {% endfor %}
-                </ul>
-              </details>
               
+              <!-- 💡 核心修正 2：改用更安全的點擊事件，確保能自由開啟與關閉（不受 active 的霸凌） -->
+              <a href="javascript:void(0);" class="nav-list-link style-pure-trigger" onclick="event.preventDefault(); this.parentElement.classList.toggle('js-open');">
+                {{ item.title }}
+                <span class="nav-list-expander">
+                  <svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg>
+                </span>
+              </a>
+              
+              <ul class="nav-list style-sub-menu-box">
+                {% for child in sorted_pages %}
+                  {% if child.url contains detected_lang and child.parent == item.title %}
+                    <li class="nav-list-item{% if page.url == child.url %} active{% endif %}">
+                      <a href="{{ child.url | relative_url }}" class="nav-list-link{% if page.url == child.url %} active{% endif %}">{{ child.title }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
             {% else %}
-              <!-- 一般項目，維持原生的點擊導向連結 -->
               <a href="{{ item.url | relative_url }}" class="nav-list-link{% if page.url == item.url %} active{% endif %}">{{ item.title }}</a>
             {% endif %}
           </li>

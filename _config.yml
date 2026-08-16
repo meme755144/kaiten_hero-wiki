@@ -35,7 +35,7 @@ languages:
     label: "日本語"
     flag: "🇯🇵"
     home_url: "/ja-JP/"
-  - code: "en"         # 未來想開英文版時，只要把這兩行的註解 # 拿掉就自動生效！
+  - code: "en"
     label: "English"
     flag: "🇺🇸"
     home_url: "/en/"
