@@ -1,0 +1,27 @@
+{% comment %}
+  1. 這是 Just the Docs 官方最新版原生的麵包屑渲染邏輯（非第一層才會跑出軌跡）
+{% endcomment %}
+{% if page.breadcrumbs != false %}
+  {% if page.parent %}
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+      <ol class="breadcrumb-nav-list">
+        {% if page.grand_parent %}
+          <li class="breadcrumb-nav-list-item"><a href="{{ page.grand_parent | attribute_to_url }}">{{ page.grand_parent }}</a></li>
+        {% endif %}
+        <li class="breadcrumb-nav-list-item"><a href="{{ page.parent | attribute_to_url }}">{{ page.parent }}</a></li>
+        <li class="breadcrumb-nav-list-item"><span>{{ page.title }}</span></li>
+      </ol>
+    </nav>
+  {% endif %}
+{% endif %}
+
+{% comment %}
+  2. ⚡ 您的終極進化：不論是不是第一層，只要有抓到 GitHub 歷史時間，100% 絕對放行亮出來！
+{% endcomment %}
+{% if page.last_updated %}
+  <div class="page-meta-top">
+    <span class="meta-label">📅 Last-modified:</span> 
+    <span class="meta-date">{{ page.last_updated | replace: '"', '' }}</span>
+  </div>
+  <hr class="meta-hr">
+{% endif %}
