@@ -34,7 +34,7 @@
   <span style="width: 1px; height: 18px; background: var(--border-color); opacity: 0.6; margin: 0 2px;"></span>
 
   <!-- 2. 精雕亮暗切換按鈕 -->
-  <button id="js-theme-toggle" class="btn" data-theme-btn
+  <button id="js-theme-toggle" class="btn data-theme-btn"
     style="background: transparent; border: 1px solid var(--border-color); width: 32px; height: 32px; padding: 0; border-radius: 6px; cursor: pointer; font-size: 1.1em; display: inline-flex; align-items: center; justify-content: center; color: var(--text-color); box-sizing: border-box; transition: all 0.2s ease;"
     onmouseover="this.style.background='var(--feedback-info-background)'; this.style.transform='scale(1.05)';"
     onmouseout="this.style.background='transparent'; this.style.transform='scale(1)';">
@@ -45,22 +45,26 @@
 <!-- 3. 亮暗模式按鈕綁定 JavaScript 引擎 -->
 <script>
   (function () {
-    // 使用純原生 JS 直接操控 data-theme，繞過 jtd 原生可能會鎖死的機制
+    var themeToggle = document.querySelector('[data-theme-btn]') || document.getElementById('js-theme-toggle');
+    var themeIcon = document.getElementById('js-theme-icon');
+    if (!themeToggle) return;
+
     function toggleTheme() {
-      var current = document.documentElement.getAttribute('data-theme') || 'light';
-      var next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      
-      // 更新按鈕圖示 (假設 ID 為 js-theme-icon)
-      var icon = document.getElementById('js-theme-icon');
-      if (icon) icon.textContent = next === 'dark' ? '🌙' : '☀️';
+      /* 判斷當前模式並利用 classList 進行無閃爍切換 */
+      var isDark = document.documentElement.classList.contains('dark-mode');
+      if (isDark) {
+        document.documentElement.classList.remove('dark-mode');
+        document.documentElement.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+        if (themeIcon) themeIcon.textContent = '☀️';
+      } else {
+        document.documentElement.classList.remove('light-mode');
+        document.documentElement.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+        if (themeIcon) themeIcon.textContent = '🌙';
+      }
     }
 
-    // 綁定點擊事件
-    var themeToggle = document.querySelector('[data-theme-btn]') || document.getElementById('js-theme-toggle');
-    if (themeToggle) {
-      themeToggle.addEventListener('click', toggleTheme);
-    }
+    themeToggle.addEventListener('click', toggleTheme);
   })();
 </script>

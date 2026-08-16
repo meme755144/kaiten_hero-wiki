@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Redirecting...</title>
@@ -18,17 +19,17 @@
   </script>
 
   <script>
-    // 在大門口先初始化亮暗記憶，沒選過的話，遊戲 Wiki 預設一律全黑（dark）
+    /* 在大門口先初始化亮暗記憶，沒選過的話，遊戲 Wiki 預設一律全黑（dark） */
     if (!localStorage.getItem('jtd-theme')) {
       localStorage.setItem('jtd-theme', 'dark');
     }
-    
-    // 2. 解析語言清單與網址變數
+
+    /* 2. 解析語言清單與網址變數 */
     var siteLanguages = JSON.parse(document.getElementById('jekyll-languages-data').textContent);
     var currentUrl = window.location.href;
     var userLang = (navigator.language || navigator.userLanguage).toLowerCase();
 
-    // 3. 自動偵測防無限循環：如果網址已經包含了任何現有語系，就停止轉址
+    /* 3. 自動偵測防無限循環：如果網址已經包含了任何現有語系，就停止轉址 */
     var isAlreadyRedirected = false;
     for (var i = 0; i < siteLanguages.length; i++) {
       if (currentUrl.indexOf('/' + siteLanguages[i].code + '/') !== -1) {
@@ -37,37 +38,35 @@
       }
     }
 
-    // 4. 如果真正站在大門口，觸發跨國分流
+    /* 4. 如果真正站在大門口，觸發跨國分流 */
     if (!isAlreadyRedirected) {
-      // 先建立一個空的目的地網址變數
       var targetUrl = "";
 
-      // 擷取玩家瀏覽器的前兩個主要字母（如 "zh", "ja", "en"）
+      /* 擷取玩家瀏覽器的前兩個主要字母（如 "zh", "ja", "en"） */
       var userMainLang = userLang.substring(0, 2);
 
-      // 5. 核心分流閘門：除了中日文，其餘通通派發到英文版 (en)
+      /* 5. 核心分流閘門：除了中日文，其餘通通派發到英文版 (en) */
       if (userMainLang === "zh") {
-        // 中文系玩家前往繁體中文
-        var zhLang = siteLanguages.find(function(l) { return l.code === "zh-TW"; });
+        var zhLang = siteLanguages.find(function (l) { return l.code === "zh-TW"; });
         targetUrl = zhLang ? zhLang.url : "";
       } else if (userMainLang === "ja") {
-        // 日文系玩家前往日本語
-        var jaLang = siteLanguages.find(function(l) { return l.code === "ja-JP"; });
+        var jaLang = siteLanguages.find(function (l) { return l.code === "ja-JP"; });
         targetUrl = jaLang ? jaLang.url : "";
       }
 
-      // 6. 安全防禦：如果上面找不到對應（比如是德文、法文、韓文，或找不到中日文資料夾），一律強制轉英文
+      /* 6. 安全防禦：如果上面找不到對應（比如是德文、法文、韓文，或找不到中日文資料夾），一律強制轉英文 */
       if (!targetUrl) {
-        var enLang = siteLanguages.find(function(l) { return l.code === "en"; });
-        // 萬一專案裡連英文資料夾都還沒開，就保險拿清單第一個語系當墊底
+        var enLang = siteLanguages.find(function (l) { return l.code === "en"; });
+        /* 萬一專案裡連英文資料夾都還沒開，就保險拿清單第一個語系當墊底 */
         targetUrl = enLang ? enLang.url : siteLanguages[0].url;
       }
 
-      // 7. 觸發秒速轉址
       window.location.replace(targetUrl);
     }
   </script>
 </head>
+
 <body style="background-color: #111111;">
 </body>
+
 </html>
