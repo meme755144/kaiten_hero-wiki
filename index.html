@@ -17,6 +17,11 @@ layout: null
   </script>
 
   <script>
+    // 在大門口先初始化亮暗記憶，沒選過的話，遊戲 Wiki 預設一律全黑（dark）
+    if (!localStorage.getItem('jtd-theme')) {
+      localStorage.setItem('jtd-theme', 'dark');
+    }
+    
     // 2. 解析語言清單與網址變數
     var siteLanguages = JSON.parse(document.getElementById('jekyll-languages-data').textContent);
     var currentUrl = window.location.href;
