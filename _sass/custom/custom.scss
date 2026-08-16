@@ -69,3 +69,38 @@ hr.meta-hr {
   margin-top: 0;
   margin-bottom: 24px;                        /* 與下方的網頁大標題（H1）拉開舒適的閱讀距離 */
 }
+
+/* 初始化 summary，確保為 Flex 佈局 */
+summary.style-official-trigger {
+  display: flex !important;
+  align-items: center;       /* 垂直居中 */
+  padding-right: 40px;       /* 為箭頭預留空間 */
+  cursor: pointer;
+  list-style: none;
+  
+  &::-webkit-details-marker { display: none; }
+}
+
+/* 精確定位箭頭與 hover 效果 */
+.style-official-trigger .nav-list-expander {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%); /* 幾何居中魔法 */
+  display: flex;
+  align-items: center;
+
+  svg {
+    transition: transform 0.25s; /* 順滑轉向 */
+  }
+}
+
+/* 當點擊大分類展開時，箭頭向下 */
+details.nav-details[open] > .style-official-trigger .nav-list-expander svg {
+  transform: rotate(90deg);
+}
+
+/* 懸停（Hover）半透明效果 */
+summary.style-official-trigger:hover {
+  background-color: var(--nav-list-item-hover-background-color, rgba(0, 0, 0, 0.04)) !important;
+}

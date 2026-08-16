@@ -4,7 +4,6 @@ title: 中文首頁
 nav_order: 1
 permalink: /zh-TW/
 lang: zh-TW
-content_id: wiki_home
 ---
 
 <style>
