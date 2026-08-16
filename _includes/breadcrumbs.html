@@ -1,0 +1,34 @@
+<!-- _includes/breadcrumbs.html -->
+{% assign breadcrumbs_path = page.url | split: "/" %}
+{% assign breadcrumbs_string = "" %}
+
+{% if breadcrumbs_path.size > 2 %}
+  <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+    <ol class="breadcrumb-nav-list">
+      {% for node in breadcrumbs_path %}
+        {% unless forloop.first %}
+          {% assign breadcrumbs_string = breadcrumbs_string | append: "/" | append: node %}
+          {% assign breadcrumb_page = site.pages | where: "url", breadcrumbs_string | first %}
+          {% if breadcrumb_page %}
+            <li class="breadcrumb-nav-list-item">
+              {% if forloop.last %}
+                {{ breadcrumb_page.title }}
+              {% else %}
+                <a href="{{ breadcrumb_page.url | relative_url }}">{{ breadcrumb_page.title }}</a>
+              {% endif %}
+            </li>
+          {% endif %}
+        {% endunless %}
+      {% endfor %}
+    </ol>
+  </nav>
+{% endif %}
+
+<!-- 📅 官方組件內嵌：在麵包屑下方全自動塞入 GitHub 最新修改時間 -->
+{% if page.last_updated %}
+  <div class="page-meta-top">
+    <span class="meta-label">📅 最後修改時間:</span> 
+    <span class="meta-date">{{ page.last_updated | date: "%Y-%m-%d %H:%M:%S" }}</span>
+  </div>
+  <hr class="meta-hr">
+{% endif %}
