@@ -8,19 +8,21 @@
   {% include icons/icons.html %}
 
   <div class="main-wrapper">
-    {% include sidebar.html %}
+    <!-- 💡 修正 1：指定官方組件的精確路徑 -->
+    {% include components/sidebar.html %}
 
     <div class="main-content-wrap">
-      {% include header.html %}
+      <!-- 💡 修正 2：指定官方組件的精確路徑 -->
+      {% include components/header.html %}
 
       <div id="main-content" class="main-content" role="main">
         
-        <!-- 💡 麵包屑導覽區塊 -->
+        <!-- 📅 自動偵測並在最上方顯示 GitHub 最新修改時間 -->
         {% if page.breadcrumbs != false %}
-          {% include breadcrumbs.html %}
+          <!-- 💡 修正 3：指定官方組件的精確路徑 -->
+          {% include components/breadcrumbs.html %}
         {% endif %}
 
-        <!-- 📅 自動偵測並在最上方顯示 GitHub 最新修改時間 -->
         {% if page.last_updated %}
           <div class="page-meta-top">
             <span class="meta-label">📅 Last-modified:</span> 
@@ -36,16 +38,19 @@
         {% if page.has_children == true and page.has_toc != false %}
           <hr>
           <h2 class="text-delta">Table of contents</h2>
-          {% include toc.html %}
+          <!-- 💡 修正 4：指定官方組件的精確路徑 -->
+          {% include components/toc.html %}
         {% endif %}
 
-        {% include footer.html %}
+        <!-- 💡 修正 5：指定官方組件的精確路徑 -->
+        {% include components/footer.html %}
       </div>
     </div>
   </div>
 
   {% if site.search_enabled != false %}
-    {% include search_script.html %}
+    <!-- 💡 修正 6：指定官方組件的精確路徑 -->
+    {% include components/search_script.html %}
   {% endif %}
 </body>
 </html>
