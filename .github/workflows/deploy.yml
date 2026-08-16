@@ -21,24 +21,23 @@ jobs:
       - name: Checkout Repository with Full History
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 獲取完整歷史以分析時間
+          fetch-depth: 0
 
       - name: Setup Ruby and Enable Cache
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
-          bundle-cache: true # 💡 開啟官方安全快取
+          bundle-cache: true
 
       - name: Install Dependencies via Bundle
         run: |
           bundle config set path 'vendor/bundle'
-          bundle install # 💡 首次推上去會裝，第二次起會秒速從快取讀取，絕不重複 Fetched！
+          bundle install
 
       - name: Automatically Inject Git Timestamp into Front Matter
         run: |
           echo "=== 開始進行多語言資料夾全自動掃描 ==="
           
-          /* 💡 修正關鍵：改用標準 Linux -prune 語法，把 vendor、_site、.git 資料夾徹底擋在門外 */
           find . \( -path "./vendor" -o -path "./_site" -o -path "./.git" \) -prune -o -type f -name "*.md" -print | while read file; do
             git_date=$(git log -1 --format="%cd" --date=iso "$file")
             if [ ! -z "$git_date" ]; then
@@ -48,6 +47,7 @@ jobs:
               echo "✅ 成功注入時間 -> [$formatted_date] : $file"
             fi
           done
+          
           echo "=== 多語言時間戳記全數注入完成 ==="
 
       - name: Setup Pages
