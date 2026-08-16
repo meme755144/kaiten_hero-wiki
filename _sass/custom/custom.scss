@@ -3,20 +3,26 @@
   在此處調整 html 基礎字級，全站的攻略文章、數據表格、側邊欄會完美等比例放大
 */
 
+/* 1. 玩家切換到暗色模式時，完美對接官方原生深色變數 */
 html[data-theme="dark"] {
-  @import "color_schemes/dark";
-  
-  /* 強制微調深色模式下的自訂控制鈕樣式 */
-  --border-color: #38383a;
-  --text-color: #f5f5f7;
+  --body-background-color: #1f1f24;
+  --sidebar-color: #16161a;
+  --text-color: #e1e1e6;
+  --link-color: #58a6ff;
+  --border-color: #30363d;
+  --search-background-color: #21262d;
+  --code-background-color: #161b22;
+  --feedback-info-background: #1f2937;
+  --bubble-background-color: #2d3748;
 }
 
+/* 2. 玩家處於預設明亮模式時的變數 */
 html[data-theme="light"] {
-  @import "color_schemes/light";
-  
-  /* 強制微調明亮模式下的自訂控制鈕樣式 */
-  --border-color: #e5e5ea;
-  --text-color: #1c1c1e;
+  --body-background-color: #ffffff;
+  --sidebar-color: #f7f7f9;
+  --text-color: #272822;
+  --link-color: #266e0a;
+  --border-color: #eee9e6;
 }
 
 html {

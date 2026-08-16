@@ -12,12 +12,19 @@
     </button>
   </div>
 
-  <!-- 側邊欄主選單：直接讀取 _data/navigation.yml 資料庫 -->
+  <!-- 側邊欄主選單：利用中括號字串安全讀取帶有連字號 (-) 的 navigation_zh-TW.yml 檔案 -->
   <nav id="site-nav" class="site-nav" aria-label="Main">
     <ul class="nav-list">
-      {% assign current_lang = page.lang | default: 'zh-TW' %}
-      {% assign menu_items = site.data.navigation[current_lang] %}
+      <!-- 1. 取得乾淨的語系代碼，預設為 zh-TW -->
+      {% assign current_lang = page.lang | default: 'zh-TW' | strip %}
       
+      <!-- 2. 動態組合目標檔名，產生字串 "navigation_zh-TW" -->
+      {% capture nav_file_name %}navigation_{{ current_lang }}{% endcapture %}
+      
+      <!-- 3. 用中括號索引法安全撈取資料，強迫系統識別為字串檔名，避開減號邏輯錯誤 -->
+      {% assign menu_items = site.data[nav_file_name] %}
+      
+      <!-- 4. 渲染選單項目 -->
       {% for item in menu_items %}
         <li class="nav-list-item{% if page.url == item.url %} active{% endif %}">
           <a href="{{ item.url | relative_url }}" class="nav-list-link{% if page.url == item.url %} active{% endif %}">

@@ -1,70 +1,85 @@
 <div class="topbar-control-center"
-  style="display: flex; gap: 14px; align-items: center; font-size: 0.85em; margin-left: auto; order: 99; padding-right: 10px; height: 100%;">
+    style="display: flex; gap: 14px; align-items: center; font-size: 0.85em; margin-left: auto; order: 99; padding-right: 10px; height: 100%;">
 
-  <!-- 1. 多語系切換器 -->
-  <div class="topbar-lang-switcher" style="display: flex; gap: 8px; align-items: center; height: 100%;">
-    {% for lang_item in site.languages %}
-    {% if page.lang == lang_item.code %}
-    <span
-      style="font-weight: 600; color: var(--link-color); background: var(--feedback-info-background); padding: 5px 10px; border-radius: 6px; white-space: nowrap; border: 1px solid var(--border-color); display: inline-flex; align-items: center; height: 32px; box-sizing: border-box;">
-      {{ lang_item.flag }}&nbsp;&nbsp;{{ lang_item.label }}
-    </span>
-    {% else %}
-    {% assign target_page = site.pages | where: "content_id", page.content_id | where: "lang", lang_item.code | first %}
-    {% if target_page %}
-    <a href="{{ target_page.url | relative_url }}"
-      style="text-decoration: none; color: var(--text-color); opacity: 0.65; padding: 5px 10px; border-radius: 6px; white-space: nowrap; border: 1px solid transparent; display: inline-flex; align-items: center; height: 32px; box-sizing: border-box; transition: all 0.2s ease;"
-      onmouseover="this.style.opacity='1'; this.style.borderColor='var(--border-color)'; this.style.background='var(--bubble-background-color)'"
-      onmouseout="this.style.opacity='0.65'; this.style.borderColor='transparent'; this.style.background='transparent'">
-      {{ lang_item.flag }}&nbsp;&nbsp;{{ lang_item.label }}
-    </a>
-    {% else %}
-    <a href="{{ lang_item.home_url | relative_url }}"
-      style="text-decoration: none; color: var(--text-color); opacity: 0.65; padding: 5px 10px; border-radius: 6px; white-space: nowrap; border: 1px solid transparent; display: inline-flex; align-items: center; height: 32px; box-sizing: border-box; transition: all 0.2s ease;"
-      onmouseover="this.style.opacity='1'; this.style.borderColor='var(--border-color)'; this.style.background='var(--bubble-background-color)'"
-      onmouseout="this.style.opacity='0.65'; this.style.borderColor='transparent'; this.style.background='transparent'">
-      {{ lang_item.flag }}&nbsp;&nbsp;{{ lang_item.label }}
-    </a>
-    {% endif %}
-    {% endif %}
-    {% endfor %}
-  </div>
+    <!-- 1. 多語系切換器 -->
+    <div class="topbar-lang-switcher" style="display: flex; gap: 8px; align-items: center; height: 100%;">
+        {% for lang_item in site.languages %}
+        {% if page.lang == lang_item.code %}
+        <span
+            style="font-weight: 600; color: var(--link-color); background: var(--feedback-info-background); padding: 5px 10px; border-radius: 6px; white-space: nowrap; border: 1px solid var(--border-color); display: inline-flex; align-items: center; height: 32px; box-sizing: border-box;">
+            {{ lang_item.flag }}&nbsp;&nbsp;{{ lang_item.label }}
+        </span>
+        {% else %}
+        {% assign target_page = site.pages | where: "content_id", page.content_id | where: "lang", lang_item.code |
+        first %}
+        {% if target_page %}
+        <a href="{{ target_page.url | relative_url }}"
+            style="text-decoration: none; color: var(--text-color); opacity: 0.65; padding: 5px 10px; border-radius: 6px; white-space: nowrap; border: 1px solid transparent; display: inline-flex; align-items: center; height: 32px; box-sizing: border-box; transition: all 0.2s ease;"
+            onmouseover="this.style.opacity='1'; this.style.borderColor='var(--border-color)'; this.style.background='var(--bubble-background-color)'"
+            onmouseout="this.style.opacity='0.65'; this.style.borderColor='transparent'; this.style.background='transparent'">
+            {{ lang_item.flag }}&nbsp;&nbsp;{{ lang_item.label }}
+        </a>
+        {% else %}
+        <a href="{{ lang_item.home_url | relative_url }}"
+            style="text-decoration: none; color: var(--text-color); opacity: 0.65; padding: 5px 10px; border-radius: 6px; white-space: nowrap; border: 1px solid transparent; display: inline-flex; align-items: center; height: 32px; box-sizing: border-box; transition: all 0.2s ease;"
+            onmouseover="this.style.opacity='1'; this.style.borderColor='var(--border-color)'; this.style.background='var(--bubble-background-color)'"
+            onmouseout="this.style.opacity='0.65'; this.style.borderColor='transparent'; this.style.background='transparent'">
+            {{ lang_item.flag }}&nbsp;&nbsp;{{ lang_item.label }}
+        </a>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </div>
 
-  <!-- 分隔線 -->
-  <span style="width: 1px; height: 18px; background: var(--border-color); opacity: 0.6; margin: 0 2px;"></span>
-
-  <!-- 2. 精雕亮暗切換按鈕 -->
-  <button id="js-theme-toggle" class="btn data-theme-btn"
-    style="background: transparent; border: 1px solid var(--border-color); width: 32px; height: 32px; padding: 0; border-radius: 6px; cursor: pointer; font-size: 1.1em; display: inline-flex; align-items: center; justify-content: center; color: var(--text-color); box-sizing: border-box; transition: all 0.2s ease;"
-    onmouseover="this.style.background='var(--feedback-info-background)'; this.style.transform='scale(1.05)';"
-    onmouseout="this.style.background='transparent'; this.style.transform='scale(1)';">
-    <span id="js-theme-icon">☀️</span>
-  </button>
+    <!-- 分隔線 -->
+    <span style="width: 1px; height: 18px; background: var(--border-color); opacity: 0.6; margin: 0 2px;"></span>
+    <!-- 2. 官方認證明暗切換按鈕 -->
+    <button id="js-theme-toggle" class="btn js-toggle-dark-mode"
+        style="background: transparent; border: 1px solid var(--border-color); width: 32px; height: 32px; padding: 0; border-radius: 6px; cursor: pointer; font-size: 1.1em; display: inline-flex; align-items: center; justify-content: center; color: var(--text-color); box-sizing: border-box; transition: all 0.2s ease;"
+        onmouseover="this.style.background='var(--feedback-info-background)'; this.style.transform='scale(1.05)';"
+        onmouseout="this.style.background='transparent'; this.style.transform='scale(1)';">
+        <span id="js-theme-icon">☀️</span>
+    </button>
 </div>
-
-<!-- 3. 亮暗模式按鈕綁定 JavaScript 引擎 -->
+<!-- 3. 官方明暗切換 JavaScript 核心 (升級自動記憶版) -->
 <script>
   (function () {
-    var themeToggle = document.querySelector('[data-theme-btn]') || document.getElementById('js-theme-toggle');
-    var themeIcon = document.getElementById('js-theme-icon');
-    if (!themeToggle) return;
+    const toggleDarkMode = document.querySelector('.js-toggle-dark-mode');
+    const themeIcon = document.getElementById('js-theme-icon');
+    if (!toggleDarkMode) return;
 
-    function toggleTheme() {
-      /* 判斷當前模式並利用 classList 進行無閃爍切換 */
-      var isDark = document.documentElement.classList.contains('dark-mode');
-      if (isDark) {
-        document.documentElement.classList.remove('dark-mode');
-        document.documentElement.classList.add('light-mode');
-        localStorage.setItem('theme', 'light');
-        if (themeIcon) themeIcon.textContent = '☀️';
-      } else {
-        document.documentElement.classList.remove('light-mode');
-        document.documentElement.classList.add('dark-mode');
-        localStorage.setItem('theme', 'dark');
-        if (themeIcon) themeIcon.textContent = '🌙';
+    /* 封裝同步按鈕圖示的函式 */
+    function updateIcon(theme) {
+      if (themeIcon) {
+        themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
       }
     }
 
-    themeToggle.addEventListener('click', toggleTheme);
+    /* 初始化：先看看本地有沒有記憶，如果沒有就抓官方目前預設的 */
+    var currentTheme = localStorage.getItem('jtd-theme');
+    if (!currentTheme && typeof jtd !== 'undefined') {
+      currentTheme = jtd.getTheme();
+    }
+    
+    /* 網頁載入時，強制套用一次主題並同步 ☀️/🌙 按鈕圖示 */
+    if (currentTheme && typeof jtd !== 'undefined') {
+      jtd.setTheme(currentTheme);
+      updateIcon(currentTheme);
+    }
+
+    /* 點擊事件：不僅套用官方 jtd 引擎變色，還會同步寫入 localStorage 記憶中 */
+    jtd.addEvent(toggleDarkMode, 'click', function() {
+      if (typeof jtd !== 'undefined') {
+        if (jtd.getTheme() === 'dark') {
+          jtd.setTheme('light');
+          localStorage.setItem('jtd-theme', 'light'); /* 記住變成明亮了 */
+          updateIcon('light');
+        } else {
+          jtd.setTheme('dark');
+          localStorage.setItem('jtd-theme', 'dark');  /* 記住變成暗色了 */
+          updateIcon('dark');
+        }
+      }
+    });
   })();
 </script>

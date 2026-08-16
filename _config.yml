@@ -14,7 +14,7 @@ heading_anchors: true
 color_scheme: light
 color_schemes:
   light: default
-  dark: default
+  dark: dark
 
 # 讓 GitHub Pages 允許遠端載入主題
 plugins:

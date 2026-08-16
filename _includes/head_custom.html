@@ -1,12 +1,9 @@
 <script>
-  (function () {
-    /* 讀取本地儲存或使用者系統偏好 */
-    var savedTheme = localStorage.getItem('theme');
-    var userPrefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    var themeToApply = (savedTheme === 'dark' || savedTheme === 'light') ? savedTheme : userPrefers;
-
-    /* 將對應的模式類別寫入 html 標籤中 */
-    document.documentElement.classList.remove(themeToApply === 'dark' ? 'light-mode' : 'dark-mode');
-    document.documentElement.classList.add(themeToApply === 'dark' ? 'dark-mode' : 'light-mode');
-  })();
+    (function () {
+        // 網頁準備載入前，先看看有沒有上次存好的亮暗記憶
+        var savedTheme = localStorage.getItem('jtd-theme');
+        if (savedTheme && typeof jtd !== 'undefined') {
+            jtd.setTheme(savedTheme);
+        }
+    })();
 </script>
