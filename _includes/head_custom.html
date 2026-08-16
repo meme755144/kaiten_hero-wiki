@@ -1,6 +1,6 @@
 <script>
     (function () {
-        // 網頁準備載入前，先看看有沒有上次存好的亮暗記憶
+        /* 網頁準備載入前，先看看有沒有上次存好的亮暗記憶 */
         var savedTheme = localStorage.getItem('jtd-theme');
         if (savedTheme && typeof jtd !== 'undefined') {
             jtd.setTheme(savedTheme);
