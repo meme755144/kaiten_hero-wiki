@@ -23,13 +23,25 @@
         {% assign detected_lang = 'zh-TW' %}
       {% endif %}
       
-      {% assign sorted_pages = site.pages | sort: "nav_order" %}
+      <!-- 💡 優化 1：先過濾語言與確保擁有 nav_order，再進行排序，防止 Jekyll sort 遺漏資料 -->
+      {% assign filtered_pages = "" | split: "," %}
+      {% for p in site.pages %}
+        {% if p.url contains detected_lang and p.nav_order %}
+          {% assign filtered_pages = filtered_pages | push: p %}
+        {% endif %}
+      {% endfor %}
+      {% assign sorted_pages = filtered_pages | sort: "nav_order" %}
+
       {% for item in sorted_pages %}
-        {% if item.url contains detected_lang and item.parent == nil and item.nav_order %}
+        <!-- 💡 優化 2：放寬父頁面判定。將 parent 轉為字串並去除空白，若為空或長度為 0 即視為第一層 -->
+        {% assign item_parent_str = item.parent | strip %}
+        {% if item_parent_str == "" or item_parent_str == nil %}
           
           {% assign has_children = false %}
           {% for child_check in sorted_pages %}
-            {% if child_check.url contains detected_lang and child_check.parent == item.title %}
+            {% assign child_parent_str = child_check.parent | strip %}
+            {% assign item_title_str = item.title | strip %}
+            {% if child_parent_str == item_title_str and child_parent_str != "" %}
               {% assign has_children = true %}
             {% endif %}
           {% endfor %}
@@ -40,11 +52,11 @@
             {% assign is_current_category = true %}
           {% endif %}
 
-          <!-- 💡 核心修正 1：利用 class "js-open" 當作唯一合法的開合鑰匙，active 只負責顏色高亮 -->
+          <!-- 💡 利用 class "js-open" 當作唯一合法的開合鑰匙 -->
           <li class="nav-list-item{% if page.url == item.url %} active{% endif %}{% if is_current_category %} js-open{% endif %}">
             {% if has_children %}
               
-              <!-- 💡 核心修正 2：改用更安全的點擊事件，確保能自由開啟與關閉（不受 active 的霸凌） -->
+              <!-- 💡 核心修正 2：安全的點擊事件，切換父層的 js-open 類名 -->
               <a href="javascript:void(0);" class="nav-list-link style-pure-trigger" onclick="event.preventDefault(); this.parentElement.classList.toggle('js-open');">
                 {{ item.title }}
                 <span class="nav-list-expander">
@@ -54,7 +66,9 @@
               
               <ul class="nav-list style-sub-menu-box">
                 {% for child in sorted_pages %}
-                  {% if child.url contains detected_lang and child.parent == item.title %}
+                  {% assign child_parent_str = child.parent | strip %}
+                  {% assign item_title_str = item.title | strip %}
+                  {% if child_parent_str == item_title_str and child_parent_str != "" %}
                     <li class="nav-list-item{% if page.url == child.url %} active{% endif %}">
                       <a href="{{ child.url | relative_url }}" class="nav-list-link{% if page.url == child.url %} active{% endif %}">{{ child.title }}</a>
                     </li>

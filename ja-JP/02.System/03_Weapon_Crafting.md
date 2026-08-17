@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "武器制作"
-parent: "Ststem"        # 關鍵：認大分類 A 當爸爸
+parent: "System"        # 關鍵：認大分類 A 當爸爸
 permalink: /ja-JP/System/Weapon_Crafting/  # 真正的網頁網址
 nav_order: 3
 lang: ja-JP

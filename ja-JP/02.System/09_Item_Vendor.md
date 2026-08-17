@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "アイテム屋"
-parent: "Ststem"        # 關鍵：認大分類 A 當爸爸
+parent: "System"        # 關鍵：認大分類 A 當爸爸
 permalink: /ja-JP/System/Item_Vendor/  # 真正的網頁網址
 nav_order: 9
 lang: ja-JP

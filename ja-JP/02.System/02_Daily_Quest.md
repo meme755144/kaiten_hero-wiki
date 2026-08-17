@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "デイリークエスト"
-parent: "Ststem"        # 關鍵：認大分類 A 當爸爸
+parent: "System"        # 關鍵：認大分類 A 當爸爸
 permalink: /ja-JP/System/Daily_Quest/  # 真正的網頁網址
 nav_order: 2
 lang: ja-JP

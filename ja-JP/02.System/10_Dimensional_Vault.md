@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "次元領域"
-parent: "Ststem"        # 關鍵：認大分類 A 當爸爸
+parent: "System"        # 關鍵：認大分類 A 當爸爸
 permalink: /ja-JP/System/Dimensional_Vault/  # 真正的網頁網址
 nav_order: 10
 lang: ja-JP

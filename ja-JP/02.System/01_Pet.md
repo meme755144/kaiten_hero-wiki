@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "ペット"
-parent: "Ststem"        # 關鍵：認大分類 A 當爸爸
+parent: "System"        # 關鍵：認大分類 A 當爸爸
 permalink: /ja-JP/System/Pet/  # 真正的網頁網址
 nav_order: 1
 lang: ja-JP
