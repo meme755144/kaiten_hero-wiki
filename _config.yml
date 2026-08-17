@@ -11,6 +11,8 @@ url: "https://github.io"
 search_enabled: true
 heading_anchors: true
 
+nav_heading_toggle: true
+
 color_scheme: light
 color_schemes:
   light: default
