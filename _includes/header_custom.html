@@ -52,6 +52,7 @@
     function updateIcon(theme) {
       if (themeIcon) {
         themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+        document.documentElement.setAttribute('data-theme', theme);
       }
     }
 
