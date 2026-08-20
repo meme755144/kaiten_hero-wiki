@@ -139,7 +139,7 @@ hr.meta-hr {
 }
 
 /* ☀️ 預設明亮模式：當 main 裡面有包含 #markdown-toc 時生效 */
-.main-content main:has(#markdown-toc) h3 {
+.main-content main h3 {
   position: relative !important;
   display: flex !important;
   flex-direction: row-reverse !important;
@@ -154,7 +154,7 @@ hr.meta-hr {
   margin-left: 0 !important;
 }
 
-.main-content main:has(#markdown-toc) h3 .anchor-heading {
+.main-content main h3 .anchor-heading {
   position: static !important;
   transform: none !important;
   margin-left: 0.5rem !important;
@@ -163,13 +163,62 @@ hr.meta-hr {
 }
 
 /* 🌙 黑暗模式：當 html 標籤被 JS 打上 data-theme="dark" 印章時 */
-html[data-theme="dark"] .main-content main:has(#markdown-toc) h3 {
+html[data-theme="dark"] .main-content main h3 {
   background-color: #161b22 !important;
   color: #c9d1d9 !important;
   border: 1px solid #30363d !important;
 }
 
 /* 🌙 黑暗模式下的錨點同步調暗 */
-html[data-theme="dark"] .main-content main:has(#markdown-toc) h3 .anchor-heading svg {
+html[data-theme="dark"] .main-content main h3 .anchor-heading svg {
   color: #8b949e !important;
+}
+
+/* ==========================================================================
+   📦 摺疊內層 (details) 專屬 H3 樣式 - ☀️ 明亮模式
+   ========================================================================== */
+.main-content main details h3 {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: row-reverse !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  
+  /* 精簡尺寸與內縮感 */
+  font-size: 1.15rem !important;                /* 字體微幅縮小，與外層區隔 */
+  padding: 0.4rem 0.8rem !important;           /* 縮小內邊距，看起來更精緻 */
+  margin-top: 1.5rem !important;                /* 減少上方間距 */
+  margin-bottom: 0.8rem !important;
+  margin-left: 0.5rem !important;               /* 整體向右縮進 */
+
+  /* 視覺樣式：改為淺灰藍底色 + 左側深色裝飾條 */
+  background-color: #f7f9fa !important;         /* 比外層更淡的背景色 */
+  color: #244261 !important;                    /* 低調內斂的深藍灰字體 */
+  border-radius: 4px !important;
+  border: 1px solid #e1e4e6 !important;         /* 細緻的淺色邊框 */
+  border-left: 10px solid #4a7bb0 !important;    /* 亮點：左側加粗裝飾條，一眼看出是次級標題 */
+}
+
+/* 微調內層錨點連結位置 */
+.main-content main details h3 .anchor-heading {
+  position: static !important;
+  transform: none !important;
+  margin-left: 0.4rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* ==========================================================================
+   📦 摺疊內層 (details) 專屬 H3 樣式 - 🌙 黑暗模式
+   ========================================================================== */
+html[data-theme="dark"] .main-content main details h3 {
+  background-color: #1c2128 !important;         /* 深色畫面的次級灰色 */
+  color: #adbac7 !important;                    /* 柔和的文字顏色 */
+  border: 1px solid #444c56 !important;         /* 黑暗模式細邊框 */
+  border-left: 10px solid #316dca !important;    /* 黑暗模式下的左側裝飾條 */
+}
+
+/* 黑暗模式下的錨點同步調暗 */
+html[data-theme="dark"] .main-content main details h3 .anchor-heading svg {
+  color: #768390 !important;
 }
