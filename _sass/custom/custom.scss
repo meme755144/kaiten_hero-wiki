@@ -222,3 +222,74 @@ html[data-theme="dark"] .main-content main details h3 {
 html[data-theme="dark"] .main-content main details h3 .anchor-heading svg {
   color: #768390 !important;
 }
+
+/* ==========================================================================
+   🎯 偽內層 (非折疊) 專屬 H3 樣式 - ☀️ 明亮模式
+   ========================================================================== */
+.main-content main h3.sub-h3 {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: row-reverse !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  
+  font-size: 1.15rem !important;                
+  padding: 0.4rem 0.8rem !important;           
+  margin-top: 1.5rem !important;                
+  margin-bottom: 0.8rem !important;
+  margin-left: 0.5rem !important;               
+
+  background-color: #f7f9fa !important;         
+  color: #244261 !important;                    
+  border-radius: 4px !important;
+  border: 1px solid #e1e4e6 !important;         
+  border-left: 10px solid #4a7bb0 !important;    /* 關鍵：左側加粗裝飾條 */
+}
+
+/* 微調偽內層錨點連結位置 */
+.main-content main h3.sub-h3 .anchor-heading {
+  position: static !important;
+  transform: none !important;
+  margin-left: 0.4rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* ==========================================================================
+   🎯 偽內層 (非折疊) 專屬 H3 樣式 - 🌙 黑暗模式
+   ========================================================================== */
+html[data-theme="dark"] .main-content main h3.sub-h3 {
+  background-color: #1c2128 !important;         
+  color: #adbac7 !important;                    
+  border: 1px solid #444c56 !important;         
+  border-left: 10px solid #316dca !important;    /* 黑暗模式裝飾條 */
+}
+
+html[data-theme="dark"] .main-content main h3.sub-h3 .anchor-heading svg {
+  color: #768390 !important;
+}
+
+/* ==========================================================================
+   🎯 指定公式專屬：特定 KaTeX 公式靠左對齊樣式
+   ========================================================================== */
+
+/* 當區塊公式被加上 .math-left 貼紙時，強制其大容器靠左 */
+.main-content main .math-left.katex-display,
+.main-content main .math-left {
+  display: block !important;
+  text-align: left !important;
+  margin: 1rem 0 !important;      /* 上下保持間距，左右不置中 */
+  padding-left: 0.5rem !important; /* 給予微幅內縮感 */
+}
+
+/* 確保該指定公式內部的 html 渲染元件也同步靠左對齊 */
+.main-content main .math-left .katex-html {
+  text-align: left !important;
+}
+
+/* 如果該指定公式位於清單 (li) 內部，優化其排列 */
+.main-content main li .math-left.katex-display {
+  margin: 0.5rem 0 !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
